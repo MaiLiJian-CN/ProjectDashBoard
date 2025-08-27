@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Tech Infor Gathering System</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-briefcase text-blue-600 text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800">Product Tech Infor Gathering System</h1>
+
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="/" class="text-blue-600 font-medium">Home</a>
+                <a href="/projects" class="text-gray-600 hover:text-blue-600 transition-colors">Projects</a>
+                <a href="/projects" class="text-gray-600 hover:text-blue-600 transition-colors">Projects</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+            </div>
+            <button class="md:hidden text-gray-600">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主内容区 - 会自动占据剩余空间 -->
+    <main class="container mx-auto px-4 py-12">
+        <section class="max-w-3xl mx-auto text-center">
+            <div
+                class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <i class="fa fa-line-chart text-white text-2xl"></i>
+            </div>
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-gray-800 mb-4 leading-tight">
+                Project Management Dashboard
+            </h2>
+            <p class="text-gray-600 text-lg mb-8">
+                View and manage all your projects in one place with our intuitive dashboard.
+            </p>
+            <a href="/projects"
+                class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-1">
+                <span>View Projects</span>
+                <i class="fa fa-arrow-right ml-2"></i>
+            </a>
+        </section>
+
+        <!-- 特性展示 -->
+        <section class="grid md:grid-cols-3 gap-8 mt-20">
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fa fa-list text-blue-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Project List</h3>
+                <p class="text-gray-600">Browse through all your projects with detailed information and status.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fa fa-bar-chart text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Analytics</h3>
+                <p class="text-gray-600">Get insights into project distribution across divisions and types.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fa fa-filter text-purple-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Filtering</h3>
+                <p class="text-gray-600">Easily filter and sort projects based on various criteria.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 - 会固定在页面底部 -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Eaton PCCoE Product Tech Infor Gathering System</p>
+        </div>
+    </footer>
+</body>
+
+</html>

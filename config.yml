@@ -1,0 +1,6 @@
+db:
+    user: "root"
+    pwd: "Welcome12"
+    dbname: "data_manager_cyber"
+    host: "127.0.0.1"  # 新增
+    port: "3306"       # 新增

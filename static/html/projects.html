@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project List | Project Manager</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-briefcase text-blue-600 text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800">Project Manager</h1>
+            </div>
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-briefcase text-blue-600 text-2xl"></i>
+            </div>
+
+            <!-- 在导航栏的<a>标签中添加 -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="/" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
+                <a href="/projects" class="text-blue-600 font-medium">Projects</a>
+                <a href="/analysis" class="text-gray-600 hover:text-blue-600 transition-colors">Analysis</a> <!-- 新增 -->
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+            </div>
+            <button class="md:hidden text-gray-600">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主内容区 - 会自动占据剩余空间 -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Project List</h2>
+                <p class="text-gray-600">View and manage all your projects</p>
+            </div>
+            <button id="loadProjects"
+                class="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 transition-all duration-300">
+                <i class="fa fa-refresh mr-2"></i>
+                <span>Load Projects</span>
+            </button>
+        </div>
+
+        <!-- 加载状态 -->
+        <div id="loading" class="hidden flex justify-center items-center py-16">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+
+        <!-- 错误提示 -->
+        <div id="error" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6"></div>
+
+        <!-- 数据统计卡片 -->
+        <div id="stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Projects</p>
+                        <h3 id="totalProjects" class="text-3xl font-bold text-gray-800 mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fa fa-briefcase text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Divisions</p>
+                        <h3 id="totalDivisions" class="text-3xl font-bold text-gray-800 mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fa fa-sitemap text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Project Types</p>
+                        <h3 id="totalTypes" class="text-3xl font-bold text-gray-800 mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fa fa-tags text-purple-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表格容器 -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="overflow-x-auto">
+                <table id="projectTable" class="min-w-full divide-y divide-gray-200">
+                    <!-- 在projects.html的表格头部添加Actions列 -->
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <!-- 保持原有列 -->
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                No</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Project</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Start</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Finish</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Division</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Component</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Gate</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Type</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Scope</th>
+                            <!-- 新增操作列 -->
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectBody" class="bg-white divide-y divide-gray-200">
+                        <!-- 数据将通过JS动态填充 -->
+                        <tr class="text-center">
+                            <td colspan="11" class="px-6 py-12 text-gray-500">
+                                Click "Load Projects" to fetch data
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 - 会固定在页面底部 -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 Project Manager. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 引入数据请求脚本 -->
+    <script type="module">
+        import { EditModal } from '/static/js/edit-modal.js';
+        import { projectApi } from '/static/js/api/projectApi.js';
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化编辑弹窗
+            const editModal = new EditModal();
+
+            // DOM元素
+            const loadButton = document.getElementById('loadProjects');
+            const loadingIndicator = document.getElementById('loading');
+            const errorElement = document.getElementById('error');
+            const projectBody = document.getElementById('projectBody');
+            const statsSection = document.getElementById('stats');
+            const totalProjectsElement = document.getElementById('totalProjects');
+            const totalDivisionsElement = document.getElementById('totalDivisions');
+            const totalTypesElement = document.getElementById('totalTypes');
+
+            // 加载项目数据
+            const loadProjects = async () => {
+                try {
+                    // 显示加载状态
+                    loadingIndicator.classList.remove('hidden');
+                    errorElement.classList.add('hidden');
+                    loadButton.disabled = true;
+                    loadButton.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i><span>Loading...</span>';
+
+                    // 调用API获取项目数据
+                    const projects = await projectApi.getAllProjects();
+
+                    // 更新统计信息
+                    updateStats(projects);
+
+                    // 渲染项目表格
+                    renderProjectTable(projects);
+
+                } catch (err) {
+                    // 显示错误信息
+                    errorElement.textContent = `Error: ${err.message || 'Failed to load projects'}`;
+                    errorElement.classList.remove('hidden');
+                } finally {
+                    // 隐藏加载状态
+                    loadingIndicator.classList.add('hidden');
+                    loadButton.disabled = false;
+                    loadButton.innerHTML = '<i class="fa fa-refresh mr-2"></i><span>Load Projects</span>';
+                }
+            };
+
+            // 更新统计信息
+            const updateStats = (projects) => {
+                statsSection.classList.remove('hidden');
+                totalProjectsElement.textContent = projects.length;
+
+                const divisions = new Set(projects.map(p => p.Division));
+                const types = new Set(projects.map(p => p.Type));
+
+                totalDivisionsElement.textContent = divisions.size;
+                totalTypesElement.textContent = types.size;
+            };
+
+            // 渲染项目表格
+            const renderProjectTable = (projects) => {
+                projectBody.innerHTML = '';
+
+                if (projects.length === 0) {
+                    projectBody.innerHTML = `
+                    <tr class="text-center">
+                        <td colspan="10" class="px-6 py-12 text-gray-500">
+                            No projects found
+                        </td>
+                    </tr>
+                `;
+                    return;
+                }
+
+                projects.forEach(project => {
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50 transition-colors';
+
+                    const finishYear = project.Finish || '-';
+                    const scope = project.Scope || '-';
+
+                    row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${project.No}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">${project.Project}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.Start}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${finishYear}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">${project.Division}</span>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${project.Component}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.Status}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.Gate}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.Type}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${scope}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        <button class="edit-btn text-indigo-600 hover:text-indigo-900 mr-3" data-id="${project.No}">
+                            <i class="fa fa-pencil"></i> Edit
+                        </button>
+                    </td>
+                `;
+                    projectBody.appendChild(row);
+                });
+            };
+
+            // 绑定编辑按钮点击事件
+            projectBody.addEventListener('click', (e) => {
+                const editBtn = e.target.closest('.edit-btn');
+                if (editBtn) {
+                    const projectId = editBtn.getAttribute('data-id');
+                    editModal.show(projectId);
+                }
+            });
+
+            // 监听项目更新事件，刷新列表
+            window.addEventListener('projectUpdated', () => {
+                loadProjects();
+
+                // 显示成功消息
+                errorElement.textContent = 'Project updated successfully!';
+                errorElement.className = 'bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6';
+                errorElement.classList.remove('hidden');
+
+                // 3秒后隐藏成功消息
+                setTimeout(() => {
+                    errorElement.classList.add('hidden');
+                }, 3000);
+            });
+
+            // 绑定加载按钮点击事件
+            loadButton.addEventListener('click', loadProjects);
+        });
+    </script>
+
+</body>
+
+</html>

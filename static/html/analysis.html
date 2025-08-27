@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Analysis | Project Manager</title>
+    <!-- 引入现有依赖 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+<!-- 替换为阿里云CDN的ECharts -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+    <!-- 复用现有导航栏 -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-briefcase text-blue-600 text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800">Project Manager</h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="/" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
+                <a href="/projects" class="text-gray-600 hover:text-blue-600 transition-colors">Projects</a>
+                <a href="/analysis" class="text-blue-600 font-medium">Analysis</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+            </div>
+            <button class="md:hidden text-gray-600">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Project Analysis</h2>
+            <p class="text-gray-600">Visualize project data insights</p>
+        </div>
+
+        <!-- 图表容器：响应式布局 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- 饼图：项目类型分布 -->
+            <div class="bg-white p-4 rounded-xl shadow-md">
+                <h3 class="text-lg font-medium mb-4">Project Type Distribution</h3>
+                <div id="typePieChart" class="w-full h-80"></div>
+            </div>
+
+            <!-- 柱状图：部门项目数量 -->
+            <div class="bg-white p-4 rounded-xl shadow-md">
+                <h3 class="text-lg font-medium mb-4">Projects by Division</h3>
+                <div id="divisionBarChart" class="w-full h-80"></div>
+            </div>
+
+            <!-- 折线图：项目时间趋势（跨两列） -->
+            <div class="bg-white p-4 rounded-xl shadow-md md:col-span-2">
+                <h3 class="text-lg font-medium mb-4">Project Timeline Trend</h3>
+                <div id="timelineLineChart" class="w-full h-80"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 复用现有页脚 -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 Project Manager. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 引入图表渲染脚本 -->
+    <script type="module" src="/static/js/analysis-charts.js"></script>
+</body>
+</html>
