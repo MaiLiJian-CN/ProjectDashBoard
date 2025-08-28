@@ -28,6 +28,14 @@ func main() {
 		c.File("./static/html/analysis.html")
 	})
 
+	// 添加在现有路由配置中
+	r.GET("/new-project", func(c *gin.Context) {
+		c.File("static/html/new-project.html")
+	})
+
+	// 处理表单提交的API
+	r.POST("/api/projects", controller.NewProduct)
+
 	// 数据接口路由
 	r.GET("/api/projects", controller.GetAllProjects)
 	r.GET("/api/projects/:id", controller.GetProjectById)
