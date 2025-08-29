@@ -29,9 +29,34 @@ func InitDB() {
 	}
 
 	// 自动迁移模型（会根据模型创建/更新表结构）
-	err = DB.AutoMigrate(&model.Projects{})
+	err = DB.AutoMigrate(
+		&model.Projects{},
+		&model.Cloud{},          // Cloud组件表
+		&model.WebApplication{}, // Web-Application组件表
+		&model.IotDevice{},      // IoT-Device组件表
+		&model.Hmi{},            // HMI组件表
+		&model.Firmware{},       // Firmware组件表
+		&model.PCTool{},
+		&model.MobileApp{},
+		// 其他组件表...
+	)
+
 	if err != nil {
 		panic(fmt.Sprintf("fail to automigrate: %v", err))
 	}
 
 }
+
+// func AutoMigrate(db *gorm.DB) error {
+// 	return db.AutoMigrate(
+// 		&model.Projects{},
+// 		&model.Cloud{},          // Cloud组件表
+// 		&model.WebApplication{}, // Web-Application组件表
+// 		&model.IotDevice{},      // IoT-Device组件表
+// 		&model.Hmi{},            // HMI组件表
+// 		&model.Firmware{},       // Firmware组件表
+// 		&model.PCTool{},
+// 		&model.MobileApp{},
+// 		// 其他组件表...
+// 	)
+// }

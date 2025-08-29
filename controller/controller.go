@@ -65,6 +65,4 @@ func UpdateById(ctx *gin.Context) {
 	}
 }
 
-func NewProduct(ctx *gin.Context){
-	
-}
+
